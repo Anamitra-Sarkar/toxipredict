@@ -1,5 +1,5 @@
 {
-  "id": "anamitrasarkar007/toxipredict-training",
+  "id": "anamitrasarkar007/toxipredict-gnn-training",
   "title": "ToxiPredict GNN Training",
   "code_file": "toxipredict_train.py",
   "language": "python",
