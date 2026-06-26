@@ -16,6 +16,7 @@ subprocess.run(["pip", "install", "-q",
     "-f", "https://data.pyg.org/whl/torch-2.10.0+cu128.html"],
     check=True)
 subprocess.run(["pip", "install", "-q",
+    "rdkit-pypi==2022.9.5",
     "matplotlib", "safetensors", "huggingface_hub"], check=True)
 
 import numpy as np
