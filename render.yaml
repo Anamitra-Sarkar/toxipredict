@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: toxipredict-backend
+    runtime: docker
+    repo: https://github.com/Anamitra-Sarkar/toxipredict
+    branch: main
+    rootDir: backend
+    dockerfilePath: backend/Dockerfile
+    healthCheckPath: /health
+    plan: free
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
+      - key: HF_MODEL_REPO
+        value: Arko007/toxipredict-gnn-models
+      - key: HF_TOKEN
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        value: plant-cloud-cd461
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY_ID
+        sync: false
+      - key: FIREBASE_CLIENT_EMAIL
+        value: firebase-adminsdk-fbsvc@plant-cloud-cd461.iam.gserviceaccount.com
+      - key: FIREBASE_CLIENT_ID
+        value: "108651452795135314036"
+      - key: CORS_ORIGINS
+        value: http://localhost:3000,https://toxipredict-frontend.onrender.com
+
+  - type: web
+    name: toxipredict-frontend
+    runtime: node
+    repo: https://github.com/Anamitra-Sarkar/toxipredict
+    branch: main
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /
+    plan: free
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: NEXT_PUBLIC_API_URL
+        value: https://toxipredict-api.onrender.com
