@@ -15,9 +15,8 @@ subprocess.run(["pip", "install", "-q",
     "torch-scatter", "torch-sparse",
     "-f", "https://data.pyg.org/whl/torch-2.10.0+cu128.html"],
     check=True)
-subprocess.run(["conda", "install", "-y", "-c", "conda-forge",
-    "rdkit"], check=True)
 subprocess.run(["pip", "install", "-q",
+    "rdkit",
     "matplotlib", "safetensors", "huggingface_hub"], check=True)
 
 import numpy as np
