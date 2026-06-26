@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://toxipredict-api.hf.space/api/$1"
+    }
+  ]
+}

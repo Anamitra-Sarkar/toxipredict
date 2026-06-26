@@ -1,0 +1,41 @@
+name: Sync Backend to HuggingFace Space
+
+on:
+  push:
+    branches: [main]
+    paths: ['backend/**']
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup HuggingFace
+        env:
+          HF_TOKEN: ${{ secrets.HF_SPACE_TOKEN }}
+        run: |
+          pip install huggingface-hub
+          huggingface-cli login --token $HF_TOKEN
+
+      - name: Sync to Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_SPACE_TOKEN }}
+        run: |
+          SPACE_ID="Arko006/toxipredict-api"
+          TMP_DIR=$(mktemp -d)
+          git clone "https://huggingface.co/spaces/$SPACE_ID" "$TMP_DIR" --depth 1
+          rsync -av --delete backend/ "$TMP_DIR/"
+          rm -f "$TMP_DIR/.env"
+          cp backend/requirements.txt "$TMP_DIR/"
+          cp backend/Dockerfile "$TMP_DIR/"
+          cd "$TMP_DIR"
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          git add .
+          git diff --quiet && git diff --staged --quiet || \
+            git commit -m "Sync from GitHub - $(date +'%Y-%m-%d %H:%M')"
+          git push "https://user:$HF_TOKEN@huggingface.co/spaces/$SPACE_ID" main
+          rm -rf "$TMP_DIR"
