@@ -17,10 +17,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements.txt .
 RUN pip install --upgrade pip && \
-    pip install torch==2.1.2 --index-url https://download.pytorch.org/whl/cpu && \
-    pip install torch-scatter torch-sparse -f https://data.pyg.org/whl/torch-2.1.0+cpu.html && \
-    pip install torch-geometric==2.5.0 && \
-    pip install rdkit-pypi>=2023.9 && \
+    pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu && \
+    pip install torch-scatter torch-sparse -f https://data.pyg.org/whl/torch-2.5.1+cpu.html && \
+    pip install torch-geometric && \
+    pip install rdkit-pypi>=2024.9 && \
     pip install -r requirements.txt
 
 RUN mkdir -p /model
