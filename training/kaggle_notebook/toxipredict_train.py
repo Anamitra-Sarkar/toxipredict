@@ -11,12 +11,7 @@ import os, sys, json, subprocess, warnings, time, math
 warnings.filterwarnings("ignore", category=UserWarning, module="torch")
 
 subprocess.run(["pip", "install", "-q",
-    "torch-geometric",
-    "torch-scatter", "torch-sparse",
-    "-f", "https://data.pyg.org/whl/torch-2.10.0+cu128.html"],
-    check=True)
-subprocess.run(["pip", "install", "-q",
-    "rdkit",
+    "torch-geometric", "rdkit",
     "matplotlib", "safetensors", "huggingface_hub"], check=True)
 
 import numpy as np
