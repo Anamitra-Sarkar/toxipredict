@@ -44,4 +44,4 @@ services:
       - key: NODE_VERSION
         value: "24"
       - key: NEXT_PUBLIC_API_URL
-        value: https://toxipredict-api.onrender.com
+        value: https://arko006-toxipredict-api.hf.space
