@@ -58,7 +58,16 @@ Based on this data:
 4. Assess overall risk level.
 5. Provide confidence in the assessment.
 
-Output a structured report adhering to the provided schema.
+Output valid JSON with these fields:
+- target_assay (string)
+- risk_level (string: Low/Moderate/High/Critical)
+- toxicophore_assessment (string)
+- biochemical_mechanism (string)
+- structural_alerts_found (array of objects with alert_name and details)
+- bioisosteric_replacements (array of strings)
+- confidence (string)
+
+Output ONLY the JSON, no other text.
 """
         chat_completion = self.client.chat.completions.create(
             model=self.model,
@@ -69,14 +78,7 @@ Output a structured report adhering to the provided schema.
                 },
                 {"role": "user", "content": prompt}
             ],
-            response_format={
-                "type": "json_schema",
-                "json_schema": {
-                    "name": "Toxicology_Report",
-                    "strict": True,
-                    "schema": self.json_schema
-                }
-            },
+            response_format={"type": "json_object"},
             temperature=0.1,
         )
 

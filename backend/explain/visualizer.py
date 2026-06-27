@@ -2,7 +2,7 @@ import io
 import base64
 import numpy as np
 from rdkit import Chem
-from rdkit.Chem.Draw import SimilarityMaps
+from rdkit.Chem import Draw, AllChem
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -19,20 +19,29 @@ def generate_similarity_map(smiles: str, attributions: list, target_assay: str) 
             f"but {len(attributions)} attributions provided"
         )
 
-    fig, ax = plt.subplots(figsize=(8, 6))
-    SimilarityMaps.GetSimilarityMapFromWeights(
+    AllChem.Compute2DCoords(mol)
+    weights = np.array(attributions)
+    vmax = max(abs(weights).max(), 0.01)
+
+    highlight_colors = {}
+    for i, w in enumerate(weights):
+        if w > 0:
+            intensity = min(abs(w) / vmax, 1.0)
+            highlight_colors[i] = (1, 0, 0, intensity * 0.7)
+        else:
+            intensity = min(abs(w) / vmax, 1.0)
+            highlight_colors[i] = (0, 0, 1, intensity * 0.7)
+
+    img = Draw.MolToImage(
         mol,
-        attributions,
-        colorMap='RdYlBu_r',
-        scale=1,
-        alpha=0.45,
+        size=(600, 500),
+        highlightAtoms=list(range(mol.GetNumAtoms())),
+        highlightColors=highlight_colors,
+        kekulize=True,
     )
-    ax.set_title(f"SHAP Attributions — {target_assay}", fontsize=14, fontweight="bold")
-    plt.tight_layout()
 
     buf = io.BytesIO()
-    fig.savefig(buf, format="png", dpi=200, bbox_inches="tight")
-    plt.close(fig)
+    img.save(buf, format="png")
     buf.seek(0)
 
     return base64.b64encode(buf.read()).decode("utf-8")
