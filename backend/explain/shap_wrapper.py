@@ -12,21 +12,17 @@ class GNNFeatureWrapper:
 
     def __call__(self, binary_coalitions: np.ndarray) -> np.ndarray:
         predictions = []
+        x = self.data_obj.x.to(self.device)
+        edge_index = self.data_obj.edge_index.to(self.device)
+        edge_attr = self.data_obj.edge_attr.to(self.device)
+        batch = torch.zeros(x.shape[0], dtype=torch.long, device=self.device)
+
         with torch.no_grad():
             for coalition in binary_coalitions:
-                x_perturbed = self.data_obj.x.clone().to(self.device)
-                mask_tensor = torch.tensor(
-                    coalition, dtype=torch.float32, device=self.device
-                ).unsqueeze(1)
-                x_perturbed = x_perturbed * mask_tensor
-
-                logits = self.model(
-                    x_perturbed,
-                    self.data_obj.edge_index.to(self.device),
-                    self.data_obj.edge_attr.to(self.device),
-                    torch.zeros(x_perturbed.shape[0], dtype=torch.long, device=self.device),
-                )
-                probs = torch.sigmoid(logits)
-                predictions.append(probs[0, self.target_task_idx].cpu().item())
+                mask = torch.tensor(coalition, dtype=torch.float32, device=self.device).unsqueeze(1)
+                x_perturbed = x * mask
+                logits = self.model(x_perturbed, edge_index, edge_attr, batch)
+                prob = torch.sigmoid(logits[0, self.target_task_idx]).cpu().item()
+                predictions.append(prob)
 
         return np.array(predictions)

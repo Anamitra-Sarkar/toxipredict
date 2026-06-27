@@ -13,12 +13,18 @@ def generate_similarity_map(smiles: str, attributions: list, target_assay: str) 
     if mol is None:
         raise ValueError(f"Invalid SMILES: {smiles}")
 
+    if mol.GetNumAtoms() != len(attributions):
+        raise ValueError(
+            f"Atom count mismatch: mol has {mol.GetNumAtoms()} atoms, "
+            f"but {len(attributions)} attributions provided"
+        )
+
     fig, ax = plt.subplots(figsize=(8, 6))
     SimilarityMaps.GetSimilarityMapFromWeights(
         mol,
         attributions,
         colorMap='RdYlBu_r',
-        scale=-1,
+        scale=1,
         alpha=0.45,
     )
     ax.set_title(f"SHAP Attributions — {target_assay}", fontsize=14, fontweight="bold")

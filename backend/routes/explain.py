@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel
 from firebase_auth import verify_token
@@ -43,20 +44,23 @@ async def explain(request: ExplainRequest, authorization: str = Header(...)):
         raise HTTPException(status_code=400, detail=str(e))
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    import torch
     data = data.to(device)
 
     num_nodes = data.x.shape[0]
     predict_fn = GNNFeatureWrapper(model, data, request.target_task, device)
-    background_reference = np.zeros((100, num_nodes))
+
+    random_states = np.random.randint(0, 2, size=(20, num_nodes))
+    background_reference = np.vstack([np.zeros((1, num_nodes)), random_states])
     active_state = np.ones((1, num_nodes))
 
     import shap
     explainer = shap.KernelExplainer(predict_fn, background_reference)
-    shap_values = explainer.shap_values(active_state, nsamples=min(1000, 2 ** num_nodes))
+    nsamples = min(500, 2 ** num_nodes)
+    shap_values = explainer.shap_values(active_state, nsamples=nsamples)
 
-    attributions = shap_values[0].tolist()
-    high_impact = np.where(np.abs(shap_values[0]) > 0.05)[0].tolist()
+    attributions = np.array(shap_values[0]) if isinstance(shap_values, list) else np.array(shap_values)
+    attributions = attributions.flatten().tolist()
+    high_impact = np.where(np.abs(np.array(attributions)) > 0.05)[0].tolist()
 
     try:
         vis_base64 = generate_similarity_map(
