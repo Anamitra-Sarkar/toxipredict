@@ -11,8 +11,7 @@ import os, sys, json, subprocess, warnings, time, math
 warnings.filterwarnings("ignore", category=UserWarning, module="torch")
 
 subprocess.run(["pip", "install", "-q",
-    "torch-geometric", "rdkit",
-    "matplotlib", "safetensors", "huggingface_hub"], check=True)
+    "rdkit", "matplotlib", "safetensors", "huggingface_hub"], check=True)
 
 import numpy as np
 import pandas as pd
