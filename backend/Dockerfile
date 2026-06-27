@@ -18,9 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu && \
-    pip install torch-scatter torch-sparse -f https://data.pyg.org/whl/torch-2.5.1+cpu.html && \
     pip install torch-geometric && \
-    pip install rdkit-pypi>=2024.9 && \
+    pip install rdkit && \
     pip install -r requirements.txt
 
 RUN mkdir -p /model

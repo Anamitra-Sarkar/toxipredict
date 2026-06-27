@@ -4,7 +4,7 @@ import torch
 from huggingface_hub import hf_hub_download
 from safetensors.torch import load_file
 from config import HF_MODEL_REPO, HF_TOKEN, MODEL_CACHE_DIR, NODE_DIM, EDGE_DIM, HIDDEN_DIM, NUM_TASKS, DROPOUT
-from .multitask_gnn import MultiTaskGNN
+from .multitask_gnn import MultiTaskGNN_ResGATv2_JK_VN
 
 
 class ModelLoader:
@@ -40,7 +40,7 @@ class ModelLoader:
 
         config = self.load_config()
 
-        model = MultiTaskGNN(
+        model = MultiTaskGNN_ResGATv2_JK_VN(
             in_channels=config.get("node_dim", NODE_DIM),
             edge_dim=config.get("edge_dim", EDGE_DIM),
             hidden_dim=config.get("hidden_dim", HIDDEN_DIM),

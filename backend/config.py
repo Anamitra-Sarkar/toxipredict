@@ -29,11 +29,11 @@ CORS_ORIGIN_REGEX = "|".join(
     if "*" in o
 ) or None
 
-NUM_TASKS = 12
+NUM_TASKS = 10
 TASK_NAMES = [
     "NR-AR", "NR-AhR", "NR-Aromatase", "NR-ER",
     "NR-PPAR-gamma", "SR-ARE", "SR-ATAD5", "SR-HSE",
-    "SR-MMP", "SR-p53", "MUV-1", "MUV-2",
+    "SR-MMP", "SR-p53",
 ]
 
 TASK_CLASSES = {
@@ -42,10 +42,9 @@ TASK_CLASSES = {
     "NR-PPAR-gamma": "Nuclear Receptor", "SR-ARE": "Stress Response",
     "SR-ATAD5": "Stress Response", "SR-HSE": "Stress Response",
     "SR-MMP": "Stress Response", "SR-p53": "Stress Response",
-    "MUV-1": "MUV Benchmark", "MUV-2": "MUV Benchmark",
 }
 
-EDGE_DIM = 6
-NODE_DIM = 17
+EDGE_DIM = 11
+NODE_DIM = 45
 HIDDEN_DIM = 128
 DROPOUT = 0.15

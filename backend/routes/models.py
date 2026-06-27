@@ -10,7 +10,7 @@ async def list_models():
         "models": [
             {
                 "name": "toxipredict-gnn-v1",
-                "architecture": "MultiTaskGNN (2×GATConv, 4 heads, 12 task heads)",
+                "architecture": "MultiTaskGNN_ResGATv2_JK_VN (3×ResGATv2, 4 heads, JK concat, mean+max pool, 10 task heads)",
                 "num_tasks": NUM_TASKS,
                 "tasks": [
                     {"assay": name, "target_class": TASK_CLASSES.get(name, "Unknown")}
