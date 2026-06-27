@@ -82,7 +82,7 @@ function LoginContent() {
             Research-Grade Toxicological Profiling
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Predict toxicity across 12 biological endpoints with uncertainty-aware
+            Predict toxicity across 10 biological endpoints with uncertainty-aware
             Graph Neural Networks and explainable SHAP attributions.
           </p>
         </div>

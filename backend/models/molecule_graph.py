@@ -28,18 +28,11 @@ STEREO_TYPES = [
 
 
 def one_hot(val, choices):
-    encoding = [0] * (len(choices) + 1)
-    for i, c in enumerate(choices):
-        if val == c:
-            encoding[i] = 1
-            return encoding
-    encoding[-1] = 1
-    return encoding
+    return [1 if val == c else 0 for c in choices]
 
 
 def get_atom_features(atom):
-    feat = []
-    feat += one_hot(atom.GetAtomicNum(), ATOM_TYPES)
+    feat = one_hot(atom.GetAtomicNum(), ATOM_TYPES)
     feat += one_hot(atom.GetDegree(), list(range(7)))
     feat += one_hot(atom.GetTotalValence(), list(range(7)))
     feat += one_hot(atom.GetFormalCharge(), list(range(-3, 4)))
@@ -48,14 +41,15 @@ def get_atom_features(atom):
     feat += one_hot(atom.GetTotalNumHs(), list(range(5)))
     feat.append(float(atom.GetNumRadicalElectrons()))
     feat.append(1.0 if atom.IsInRing() else 0.0)
+    feat.append(float(atom.GetMass()) / 200.0)
     return feat
 
 
 def get_bond_features(bond, mol):
-    feat = [1 if bond.GetBondType() == bt else 0 for bt in BOND_TYPES]
+    feat = one_hot(bond.GetBondType(), BOND_TYPES)
     feat.append(1.0 if bond.GetIsConjugated() else 0.0)
     feat.append(1.0 if bond.IsInRing() else 0.0)
-    feat += [1 if bond.GetStereo() == s else 0 for s in STEREO_TYPES]
+    feat += one_hot(bond.GetStereo(), STEREO_TYPES)
     conf = mol.GetConformer()
     i, j = bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()
     dist = conf.GetAtomPosition(i).Distance(conf.GetAtomPosition(j))
@@ -63,7 +57,7 @@ def get_bond_features(bond, mol):
     return feat
 
 
-def smiles_to_graph(smiles: str) -> Data:
+def smiles_to_graph(smiles: str):
     mol = Chem.MolFromSmiles(smiles)
     if mol is None:
         raise ValueError(f"Invalid SMILES: {smiles}")

@@ -100,7 +100,7 @@ export default function DashboardPage() {
         <div className="mb-6">
           <h1 className="text-lg font-bold">Toxicological Profiling</h1>
           <p className="text-sm text-muted-foreground">
-            Enter a SMILES string to predict toxicity across 12 biological endpoints
+            Enter a SMILES string to predict toxicity across 10 biological endpoints
           </p>
         </div>
 

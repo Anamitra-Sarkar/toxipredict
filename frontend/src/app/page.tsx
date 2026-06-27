@@ -10,13 +10,13 @@ const features = [
     icon: Atom,
     title: "Multi-Task GNN Backbone",
     description:
-      "Dual-layer Graph Attention Network with 12 independent prediction heads, processing molecular graphs with spatial geometry-aware edge features.",
+      "Three-layer Residual GATv2 with jumping knowledge connections and 10 prediction heads, processing molecular graphs with spatial geometry-aware edge features and uncertainty weighting.",
   },
   {
     icon: Brain,
     title: "Uncertainty Quantification",
     description:
-      "Learnable homoscedastic uncertainty weighting dynamically balances task gradients across sparse Tox21 and MUV benchmark assays.",
+      "Learnable homoscedastic uncertainty weighting dynamically balances task gradients across sparse Tox21 benchmark assays.",
   },
   {
     icon: Shield,
@@ -29,7 +29,7 @@ const features = [
 const assays = [
   "NR-AR", "NR-AhR", "NR-Aromatase", "NR-ER",
   "NR-PPAR-gamma", "SR-ARE", "SR-ATAD5", "SR-HSE",
-  "SR-MMP", "SR-p53", "MUV-1", "MUV-2",
+  "SR-MMP", "SR-p53",
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -94,7 +94,7 @@ export default function LandingPage() {
 
           <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
             Predict Toxicity Across{" "}
-            <span className="text-primary">12 Biological Endpoints</span>
+            <span className="text-primary">10 Biological Endpoints</span>
             {" "}with Explainable AI
           </h1>
 
@@ -166,8 +166,7 @@ export default function LandingPage() {
               ))}
             </div>
             <p className="mt-4 text-xs text-muted-foreground">
-              Nuclear Receptor (NR) and Stress Response (SR) pathways from Tox21,
-              plus MUV benchmark endpoints
+              Nuclear Receptor (NR) and Stress Response (SR) pathways from Tox21
             </p>
           </div>
         </motion.div>

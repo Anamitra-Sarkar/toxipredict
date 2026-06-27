@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "ToxiPredict - Multi-Task GNN Toxicophore Prediction",
   description:
-    "Uncertainty-Aware Multi-Task Graph Neural Networks for explainable toxicological profiling across 12 biological endpoints.",
+    "Uncertainty-Aware Multi-Task Graph Neural Networks for explainable toxicological profiling across 10 biological endpoints.",
 };
 
 export default function RootLayout({
