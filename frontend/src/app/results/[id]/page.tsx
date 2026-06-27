@@ -12,7 +12,7 @@ import type { AssayPrediction } from "@/types";
 import { FlaskConical, Brain, AlertTriangle, ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+const API_BASE = "https://arko006-toxipredict-api.hf.space";
 
 interface DetailData {
   analysis_id: string;

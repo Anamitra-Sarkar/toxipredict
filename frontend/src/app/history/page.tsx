@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { FlaskConical, History as HistoryIcon, ArrowRight } from "lucide-react";
 import type { AssayPrediction } from "@/types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+const API_BASE = "https://arko006-toxipredict-api.hf.space";
 
 interface HistoryItem {
   analysis_id: string;
